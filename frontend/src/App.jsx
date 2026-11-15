@@ -65,9 +65,11 @@ function App() {
   const chartData = [
     ...historicalPrices.slice(-30).map((price, index) => ({
       date:
-        historicalDates[historicalDates.length -
-          Math.min(30, historicalPrices.length) + index] ||
-        `History ${index + 1}`,
+        historicalDates[
+          historicalDates.length -
+          Math.min(30, historicalPrices.length) +
+          index
+        ] || `History ${index + 1}`,
       historical: Number(price),
     })),
     ...predictions.map((item) => ({
@@ -213,21 +215,63 @@ function App() {
                         x2="0"
                         y2="1"
                       >
-                        <stop offset="0%" stopColor="#32d583" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#32d583" stopOpacity={0} />
+                        <stop
+                          offset="0%"
+                          stopColor="#32d583"
+                          stopOpacity={0.3}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#32d583"
+                          stopOpacity={0}
+                        />
                       </linearGradient>
                     </defs>
 
-                    <CartesianGrid strokeDasharray="3 3" stroke="#263344" />
-                    <XAxis dataKey="date" stroke="#8492a6" tick={{ fontSize: 11 }} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="#263344"
+                    />
+
+                    <XAxis
+                      dataKey="date"
+                      stroke="#8492a6"
+                      tick={{ fontSize: 11 }}
+                    />
+
                     <YAxis
                       stroke="#8492a6"
                       domain={["auto", "auto"]}
                       tickFormatter={formatPrice}
                       tick={{ fontSize: 11 }}
                     />
-                    <Tooltip formatter={(value) => formatPrice(value)} />
+
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#172334",
+                        border: "1px solid #34445a",
+                        borderRadius: "10px",
+                        color: "#ffffff",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+                      }}
+                      labelStyle={{
+                        color: "#e8edf5",
+                        fontWeight: 600,
+                        marginBottom: "6px",
+                      }}
+                      itemStyle={{
+                        color: "#ffffff",
+                      }}
+                      formatter={(value) => formatPrice(value)}
+                      labelFormatter={(label) => `Date: ${label}`}
+                      cursor={{
+                        stroke: "#94a3b8",
+                        strokeDasharray: "4 4",
+                      }}
+                    />
+
                     <Legend />
+
                     <Area
                       type="monotone"
                       dataKey="historical"
@@ -237,6 +281,7 @@ function App() {
                       fillOpacity={0.12}
                       connectNulls
                     />
+
                     <Line
                       type="monotone"
                       dataKey="predicted"
